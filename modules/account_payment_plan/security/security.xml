@@ -1,0 +1,50 @@
+<odoo>
+    <data noupdate="0">
+
+        <record model="ir.module.category" id="module_account_payment_plan">
+            <field name="name">Payment Plan</field>
+            <field name="description">Payment Plan Settings</field>
+        </record>
+
+        <record id="group_payment_plan_create" model="res.groups">
+            <field name="name">Create</field>
+            <field name="category_id" ref="module_account_payment_plan" />
+        </record>
+
+        <record id="group_payment_plan_review" model="res.groups">
+            <field name="name">Review</field>
+            <field name="category_id" ref="module_account_payment_plan" />
+        </record>
+
+        <record id="group_payment_plan_approve" model="res.groups">
+            <field name="name">Approve</field>
+            <field name="category_id" ref="module_account_payment_plan" />
+        </record>
+
+        <record id="group_payment_plan_legal" model="res.groups">
+            <field name="name">Legal</field>
+            <field name="category_id" ref="module_account_payment_plan" />
+        </record>
+
+        <record id="group_payment_plan_executive" model="res.groups">
+            <field name="name">Executive Office</field>
+            <field name="category_id" ref="module_account_payment_plan" />
+        </record>
+
+        <record id="group_payment_plan_activate" model="res.groups">
+            <field name="name">Activate</field>
+            <field name="category_id" ref="module_account_payment_plan" />
+        </record>
+
+        <record id="group_payment_plan_readonly" model="res.groups">
+            <field name="name">Readonly</field>
+            <field name="category_id" ref="module_account_payment_plan" />
+            <field
+                name="implied_ids"
+                eval="[(4, ref('account.group_account_readonly'))]"
+            />
+        </record>
+
+
+    </data>
+</odoo>

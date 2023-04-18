@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <record id="view_order_hedge_wizard_form" model="ir.ui.view">
+            <field name="name">oms.hedge.order.wizard.form</field>
+            <field name="model">oms.hedge.order.wizard</field>
+            <field name="arch" type="xml">
+                <form name="Hedge Order">
+                    <sheet>
+                        <group />
+                        <group name="group_top">
+                            <field
+                                name="order_loading_ids"
+                                widget="many2many_tags"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                        </group>
+                        <group name="group_bottom">
+                            <group name="group_left">
+                                <field name="deal_date" />
+                                <field
+                                    name="bank_id"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="trade_number" />
+                                <field name="spot_rate" />
+                            </group>
+                            <group name="group_right">
+                                <field name="forward_rate" />
+                                <field name="maturity_period" />
+                                <field name="ghs_amount" />
+                                <field name="usd_amount" />
+                            </group>
+                        </group>
+                        <footer>
+                            <button
+                                string="HEDGE"
+                                class="oe_highlight"
+                                type="object"
+                                name="btn_create_hedge"
+                            />
+                            <button
+                                string="CANCEL"
+                                class="btn-default"
+                                special="cancel"
+                            />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

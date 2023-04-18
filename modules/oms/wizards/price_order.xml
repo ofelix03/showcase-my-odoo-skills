@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_price_order_wizard_form">
+            <field name="name">oms.price.order.wizard.form</field>
+            <field name="model">oms.price.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Order Pricing">
+                    <sheet>
+                        <group name="group_top">
+                            <group name="group_left">
+                                <field name="order_management_id" invisible="1" />
+                                <label for="margin" string="Margin" />
+                                <div>
+                                    <div>
+                                        <div class="o_row mr18">
+                                            <field name="margin" placeholder="Margin" />
+                                            <span class="oe_form_field" />
+                                            <field
+                                                name="margin_uom_id"
+                                                placeholder="Unit of Measure"
+                                                options="{'no_create': True, 'no_open': True}"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <field name="final_price" />
+                                <label for="quantity" string="Quantity" />
+                                <div>
+                                    <div>
+                                        <div class="o_row mr18">
+                                            <field
+                                                name="quantity"
+                                                placeholder="Quantity"
+                                            />
+                                            <span class="oe_form_field" />
+                                            <field
+                                                name="product_uom_id"
+                                                placeholder="Unit of Measure"
+                                                options="{'no_create': True, 'no_open': True}"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </group>
+                            <group name="group_right">
+                                <field name="maturity_period" />
+                                <field name="spot_rate" />
+                                <field name="forward_rate" />
+                            </group>
+                        </group>
+                        <footer>
+                            <button
+                                string="SUBMIT"
+                                name="btn_do_submit"
+                                type="object"
+                                class="oe_highlight"
+                            >
+                            </button>
+                            <button
+                                string="CANCEL"
+                                class="btn-default"
+                                special="cancel"
+                            >
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+
+    <record model="ir.ui.view" id="add_review_comment_to_plan">
+        <field name="name">account.payment.plan.add.review.comment</field>
+        <field name="model">account.payment.plan.add.review.comment</field>
+        <field name="arch" type="xml">
+            <form string="Payment Plan Decline Form">
+                <sheet>
+                    <group>
+                        <field name="comment" />
+                    </group>
+                    <footer>
+                        <button
+                            string="Forward for Approval"
+                            name="action_submit_plan_for_approval"
+                            type="object"
+                            class="oe_highlight"
+                        >
+                        </button>
+                        <button string="CANCEL" class="btn-default" special="cancel">
+                        </button>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

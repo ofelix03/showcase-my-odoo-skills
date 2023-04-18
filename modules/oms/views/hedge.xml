@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="inherit_hedging_form">
+            <field name="name">inherit.hedging.form</field>
+            <field name="model">account.hedge</field>
+            <field name="inherit_id" ref="account_hedge.hedging_form" />
+            <field name="arch" type="xml">
+                <xpath
+                    expr="//sheet/group/group[2]/field[@name='pfe_amount']"
+                    position="after"
+                >
+                    <field
+                        name="order_loading_ids"
+                        options="{'no_create': True, 'no_open': True}"
+                        widget="many2many_tags"
+                        attrs="{'invisible': [('show_order', '=', False)]}"
+                    />
+                    <field name="show_order" invisible="1" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,82 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_order_load_wizard_form">
+            <field name="name">oms.load.order.wizard.form</field>
+            <field name="model">oms.load.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Load">
+                    <sheet>
+                        <field name="order_type" invisible="1" />
+                        <div
+                            style="width: 70%;"
+                            attrs="{'invisible': ['|', ('loaded_quantity', '=', 0), ('order_type', '=', 'regular')]}"
+                        >
+                            <h3 style="color: green;">
+                                <field
+                                    name="quantity_is_available_message"
+                                    nolabel="1"
+                                />
+                            </h3>
+                            <h3 style="color: red;">
+                                <field
+                                    name="quantity_is_unavailable_message"
+                                    nolabel="1"
+                                />
+                            </h3>
+                        </div>
+
+                        <group>
+                            <field name="order_management_id" invisible="1" />
+                            <field name="show_child_orders" invisible="1" />
+                            <group name="group_left">
+                                <field
+                                    name="warehouse_id"
+                                    options="{'no_create': True, 'no_open': True}"
+                                />
+                                <field name="loaded_quantity" />
+                                <field name="load_datetime" />
+                                <field
+                                    name="order_ids"
+                                    widget="many2many_tags"
+                                    attrs="{'invisible': [('show_child_orders', '=', False)]}"
+                                />
+                            </group>
+                            <group name="group_right">
+                                <field name="customer_order_number" />
+                                <field name="truck_number" />
+                            </group>
+                        </group>
+                        <group name="attachments">
+                            <group>
+                                <field name="waybill" />
+                                <field name="waybill_number" />
+                                <field
+                                    name="no_waybill_reason"
+                                    attrs="{'invisible': [('waybill_number', '!=', False),('waybill', '!=', False)]}"
+                                />
+                            </group>
+                            <group>
+                                <field name="order_sheet" />
+                            </group>
+                        </group>
+                        <footer>
+                            <button
+                                string="SUBMIT"
+                                name="btn_do_loaded"
+                                type="object"
+                                class="oe_highlight"
+                            >
+                            </button>
+                            <button
+                                string="CANCEL"
+                                class="btn-default"
+                                special="cancel"
+                            >
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

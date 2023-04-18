@@ -1,0 +1,193 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_order_loading_tree">
+            <field name="name">oms.order.load.tree</field>
+            <field name="model">oms.order.load</field>
+            <field name="arch" type="xml">
+                <tree
+                    default_order="write_date desc"
+                    create="false"
+                    delete="false"
+                    edit="false"
+                    duplicate="false"
+                >
+                    <field name="order_state" invisible="1" />
+                    <field name="sale_order_id" invisible="1" />
+                    <field name="hedge_id" invisible="1" />
+                    <field name="load_and_park" invisible="1" />
+                    <field name="name" />
+                    <field name="load_date" />
+                    <field name="warehouse_id" />
+                    <field name="customer_order_number" />
+                    <field name="truck_number" />
+                    <field name="quantity" sum="quantity" />
+                    <field name="waybill" widget="download_link" />
+                    <field name="waybill_number" />
+                    <field name="order_sheet" widget="download_link" />
+                    <field
+                        name="hedge_status"
+                        groups="oms.group_trading_user,oms.group_credit_control_user, oms.group_accounting_user,oms.group_audit_user, oms.group_finance_user"
+                    />
+                    <field
+                        name="so_state"
+                        groups="oms.group_trading_user,oms.group_credit_control_user, oms.group_accounting_user,oms.group_audit_user, oms.group_finance_user"
+                    />
+                    <button
+                        name="action_edit_load"
+                        class="oe_highlight"
+                        type="object"
+                        string="Edit Load"
+                        aria-label="Edit Load"
+                        groups="oms.group_operations_user"
+                        attrs="{'invisible': [('so_state', '=', 'invoiced')]}"
+                    >
+                    </button>
+                    <button
+                        class="oe_highlight"
+                        name="btn_sale_order_wizard"
+                        type="object"
+                        groups="oms.group_accounting_user"
+                        string="Create Sale Order"
+                        attrs="{'invisible': ['|','|',('sale_order_id', '!=', False),('order_state','=','lock_truck'),('load_and_park', '=', True)]}"
+                    >
+                    </button>
+                    <button
+                        name="action_view_sale_order"
+                        string="View Sale Order"
+                        type="object"
+                        icon="fa-external-link"
+                        aria-label="View Sale Order"
+                        groups="oms.group_accounting_user,oms.group_audit_user"
+                        attrs="{'invisible': [('sale_order_id', '=', False)]}"
+                    >
+                    </button>
+                    <button
+                        name="action_view_hedge"
+                        type="object"
+                        string="View Hedge"
+                        icon="fa-external-link"
+                        aria-label="View Hedge"
+                        groups="oms.group_finance_user"
+                        attrs="{'invisible': [('hedge_id', '=', False)]}"
+                    >
+                    </button>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_order_loading_form">
+            <field name="name">oms.order.load.form</field>
+            <field name="model">oms.order.load</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <header>
+                        <button
+                            class="oe_highlight"
+                            name="btn_sale_order_wizard"
+                            type="object"
+                            groups="oms.group_accounting_user"
+                            string="Create Sale Order"
+                            attrs="{'invisible': ['|','|',('sale_order_id', '!=', False),('order_state','=','lock_truck'),('load_and_park','=',True)]}"
+                        >
+                        </button>
+                        <field
+                            name="so_state"
+                            widget="statusbar"
+                            groups="oms.group_trading_user,oms.group_credit_control_user, oms.group_accounting_user,oms.group_audit_user,oms.group_finance_user"
+                        />
+                    </header>
+                    <sheet>
+                        <h2>
+                            <strong>
+                                <field name="name" class="oe_inline" />
+                            </strong>
+                        </h2>
+                        <group>
+                            <group name="group_left">
+                                <field name="load_and_park" invisible="1" />
+                                <field name="order_state" invisible="1" />
+                                <field name="order_type" invisible="1" />
+                                <field name="hide_related_loads_info" invisible="1" />
+                                <field
+                                    name="warehouse_id"
+                                    options="{'no_open': True}"
+                                />
+                                <field
+                                    name="customer_order_number"
+                                    readonly="context.get('form_is_readonly', True)"
+                                />
+                                <field
+                                    name="truck_number"
+                                    readonly="context.get('form_is_readonly', True)"
+                                />
+                                <field
+                                    name="quantity"
+                                    readonly="context.get('form_is_readonly_waybill', True)"
+                                />
+                                <field
+                                    name="load_date"
+                                    readonly="context.get('form_is_readonly', True)"
+                                />
+                            </group>
+                            <group name="group_right">
+                                <field
+                                    name="waybill"
+                                    readonly="context.get('form_is_readonly_waybill', True)"
+                                />
+                                <field
+                                    name="waybill_number"
+                                    readonly="context.get('form_is_readonly_waybill', True)"
+                                />
+                                <field
+                                    name="order_sheet"
+                                    readonly="context.get('form_is_readonly_waybill', True)"
+                                />
+                                <field
+                                    name="no_waybill_reason"
+                                    attrs="{'invisible': [('no_waybill_reason', '=', False)]}"
+                                    readonly="context.get('form_is_readonly_waybill', True)"
+                                />
+                                <field
+                                    name="sale_order_id"
+                                    attrs="{'invisible': [('so_state', '=', 'draft')]}"
+                                    groups="oms.group_accounting_user,oms.group_audit_user"
+                                />
+                                <field
+                                    name="hedge_id"
+                                    attrs="{'invisible': [('so_state', '=', 'draft')]}"
+                                    groups="oms.group_finance_user"
+                                />
+                            </group>
+                        </group>
+                        <notebook
+                            attrs="{'invisible': [('hide_related_loads_info', '=', True)]}"
+                        >
+                            <page string="Related Loads">
+                                <field name="related_load_ids">
+                                    <tree
+                                        options="{'no_open': True, 'no_create': True}"
+                                    >
+                                        <field name="name" />
+                                        <field name="warehouse_id" />
+                                        <field name="customer_order_number" />
+                                        <field name="quantity" />
+                                        <field name="sale_order_id" invisible="1" />
+                                        <button
+                                            class="oe_highlight oe_inline"
+                                            name="btn_sale_order_wizard"
+                                            type="object"
+                                            groups="oms.group_accounting_user"
+                                            string="Create Sale Order"
+                                            attrs="{'invisible': [('sale_order_id', '!=', False)]}"
+                                        >
+                                        </button>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

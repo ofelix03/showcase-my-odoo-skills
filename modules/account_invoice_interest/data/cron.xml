@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="ir_cron_daily_interest_computation" model="ir.cron">
+            <field name="name">Invoices: Daily Interest Computation</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="active" eval="False" />
+            <field name="model_id" ref="model_account_invoice_interest_cron" />
+            <field name="code">model.generate_daily_interest()</field>
+            <field name="state">code</field>
+        </record>
+    </data>
+</odoo>

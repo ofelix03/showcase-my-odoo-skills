@@ -1,0 +1,65 @@
+<odoo>
+
+    <record model="ir.ui.view" id="payment_plan_schedule_tree_view">
+        <field name="name">payment.plan.schedule.tree</field>
+        <field name="model">account.payment.plan.schedule</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Plan Schedule Tree" editable="bottom" delete="false">
+                <field name="payment_term" invisible="1" />
+                <field name="payment_plan_state" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="can_edit" invisible="1" />
+                <field
+                    name="expected_payment_date"
+                    attrs="{'readonly': ['|', '&amp;', '|', ('can_edit', '=', False), ('can_edit', '=', True), ('payment_term', 'in', ['weekly', 'monthly']), '&amp;', '&amp;', ('can_edit', '=', True), ('payment_term', '=', 'specific'), ('payment_plan_state', '!=', 'draft')]}"
+                />
+                 <field
+                    name="expected_amount"
+                    widget="monetary"
+                    attrs="{'readonly': ['|', '&amp;', '|', ('can_edit', '=', False), ('can_edit', '=', True), ('payment_term', 'in', ['weekly', 'monthly']), '&amp;', '&amp;', ('can_edit', '=', True), ('payment_term', '=', 'specific'), ('payment_plan_state', '!=', 'draft')]}"
+                    sum="expected_amount"
+                />
+                <field
+                    name="actual_payment_date"
+                    attrs="{'readonly': ['&amp;', '|', ('can_edit', '=', False), ('can_edit', '=', True), ('payment_term', 'in', ['weekly', 'monthly', 'specific'])]}"
+                />
+                <field
+                    name="actual_amount_paid"
+                    widget="monetary"
+                    attrs="{'readonly': ['&amp;', '|', ('can_edit', '=', False), ('can_edit', '=', True), ('payment_term', 'in', ['weekly', 'monthly', 'specific'])]}"
+                    sum="actual_amount_paid"
+                />
+                <field name="state" />
+                <button
+                    name="unlink"
+                    icon="fa-trash-o"
+                    type="object"
+                    attrs="{'invisible': ['|', '&amp;', ('payment_term', 'in', ['weekly', 'monthly']), ('state', '=', 'draft'), '&amp;', ('payment_term', '=', 'specific'), ('state', '!=', 'draft')]}"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="payment_plan_schedule_form_view">
+        <field name="name">payment.plan.schedule.form</field>
+        <field name="model">account.payment.plan.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Payment Plan Schedule Form">
+                <sheet>
+                    <group name="main">
+                        <group>
+                            <field name="payment_term" invisible="1" />
+                            <field name="payment_plan_state" invisible="1" />
+                            <field name="expected_payment_date" />
+                            <field name="actual_payment_date" />
+                            <field name="expected_amount" />
+                            <field name="actual_amount_paid" />
+                            <field name="state" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

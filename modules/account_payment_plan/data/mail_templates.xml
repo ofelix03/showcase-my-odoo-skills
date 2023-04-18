@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="defaulting_schedules_template" model="mail.template">
+            <field
+                name="name"
+            >Payment Plan: Report on Defaulting Scheduled Payments</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field
+                name="subject"
+            >Payment Plan: Report on Defaulting Customer Scheduled Payments</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear Sir/Madam,
+
+                    <p>A notice on customers who are currently defaulting on their
+                        payment plan</p>
+
+                    <p><strong>Defaulting customers:</strong></p>
+                    <ol>
+                        % for customer in ctx['defaulting_customers']:
+                        <li><strong>${ customer['customer_name'] }</strong>
+                            <ul style="margin-left: 5px;">
+                                % for plan in customer['defaulting_plans']:
+                                <li><a
+                                        href="${ plan['payment_plan_link'] }"
+                                    >${ plan['payment_plan_ref'] }</a></li>
+                                % endfor
+                            </ul>
+                        </li>
+                        % endfor
+                    </ol>
+                </div>
+            </field>
+        </record>
+
+        <record
+            id="payment_plan_declined_at_waiting_approval_template"
+            model="mail.template"
+        >
+            <field name="name">Payment Plan: Plan Declined At Approval Stage</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan Declined At Approval Stage</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >Payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> was declined at the approval stage.</p>
+                    % if ctx['has_attachment']:
+                    <p
+                    >An annotated copy of the Draft Debt Settlement Agreement(DSA) has been attached with additional feedback</p>
+                    % endif
+
+                    % if ctx['reason']:
+                    <p>Reason: <i><strong>${ ctx['reason'] }</strong></i></p>
+                    % endif
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record
+            id="payment_plan_declined_at_waiting_review_template"
+            model="mail.template"
+        >
+            <field name="name">Payment Plan: Plan Declined At Review Stage</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan Declined At Review Stage</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >Payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> was declined at the review stage.</p>
+
+                    % if ctx['reason']:
+                    <p>Reason: <i><strong>${ ctx['reason'] }</strong></i></p>
+                    % endif
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record
+            id="payment_plan_declined_at_draft_dsa_waiting_approval_template"
+            model="mail.template"
+        >
+            <field
+                name="name"
+            >Payment Plan: Draft Debt Settlement Agreement(DSA) Document Declined</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field
+                name="subject"
+            >Payment Plan: Draft Debt Settlement Agreement(DSA) Document Declined </field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p>The Draft Debt Settlement Agreement(DSA) documented for the <a
+                            href="${ ctx['payment_plan_link']}"
+                        >payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> was declined at the approval stage.</p>
+
+                    % if ctx['reason']:
+                    <p>Reason: <i><strong>${ ctx['reason'] }</strong></i></p>
+                    % endif
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+
+        <record id="draft_dsa_declined_by_customer_template" model="mail.template">
+            <field
+                name="name"
+            >Payment Plan: Customer Disapproved Draft Debt Settlement Agreement(DSA) Document</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field
+                name="subject"
+            >Payment Plan: Customer Disapproved Draft Debt Settlement Agreement(DSA) Document</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p>The Draft Debt Settlement Agreement(DSA) documented for the <a
+                            href="${ ctx['payment_plan_link']}"
+                        >payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> has been disapproved by customer</p>
+                    % if ctx['has_attachment']:
+                    <p>Look at the attached document for the customer's feedback.</p>
+                    % endif
+
+                    % if ctx['reason']:
+                    <p>Please consider review comment from Credit Control</p>
+                    <p>Review Comment: <i><strong>${ ctx['reason'] }</strong></i></p>
+                    % endif
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="payment_plan_at_waiting_review_template" model="mail.template">
+            <field name="name">Payment Plan: Plan Awaiting Review</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan Awaiting Review</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >New payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> is awaiting review.</p>
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="payment_plan_reviewed_and_accepted_template" model="mail.template">
+            <field name="name">Payment Plan: Plan Reviewed And Accepted</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan Reviewed And Accepted</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >Payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> has been reviewed and accepted.</p>
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Plan has been advanced forward for second approval</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="dsa_approved_and_sent_template" model="mail.template">
+            <field name="name">Payment Plan: Draft DSA Document Approved</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Draft DSA Document Approved</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p>The Draft Debt Settlement Agreement(DSA) document for the <a
+                            href="${ ctx['payment_plan_link']}"
+                        >payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> has been approved</p>
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to download a copy of the document and share with the customer for acceptance.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="payment_plan_at_waiting_approval_template" model="mail.template">
+            <field name="name">Payment Plan: Plan Awaiting Approval</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan Awaiting Approval</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >Payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> is awaiting approval.</p>
+                    % if ctx['review_comment']:
+                    <p>Please consider review comment from Credit Control</p>
+                    <p>Review Comment: <i><strong
+                            >${ ctx['review_comment'] }</strong></i></p>
+                    % endif
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record
+            id="payment_plan_at_dsa_waiting_approval_template"
+            model="mail.template"
+        >
+            <field
+                name="name"
+            >Payment Plan: Draft Debt Settlement Agreement(DSA) Awaiting Approval</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field
+                name="subject"
+            >Payment Plan: Draft Debt Settlement Agreement(DSA) Awaiting Approval</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p>The draft of the Debt Settlement Agreement document for the <a
+                            href="${ ctx['payment_plan_link']}"
+                        >payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> is waiting approval.</p>
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="payment_plan_approved_template" model="mail.template">
+            <field name="name">Payment Plan: Plan Approved</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan Approved</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >Payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> has been approved.</p>
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to view.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="draft_dsa_approved_template" model="mail.template">
+            <field
+                name="name"
+            >Payment Plan: Draft Debt Settlement Agreement(DSA) Approved</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field
+                name="subject"
+            >Payment Plan: Draft Debt Settlement Agreement(DSA) Approved</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p>The Draft Debt Settlement Agreement(DSA) document of the <a
+                            href="${ ctx['payment_plan_link']}"
+                        >payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> has been approved.</p>
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to view.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="customer_approved_draft_dsa_doc_template" model="mail.template">
+            <field
+                name="name"
+            >Payment Plan: Customer Approved Draft Debt Settlement Agreement(DSA)</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field
+                name="subject"
+            >Payment Plan: Customer Approved Draft Document Settlement Agreement(DSA)</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear Emmanuella,<br />
+
+                    <p>The Draft Debt Settlement Agreement (DSA) document for the <a
+                            href="${ ctx['payment_plan_link']}"
+                        >payment plan</a> for <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> has been agreed by the customer.</p>
+                    <p
+                    >Find attached a copy of the Debt Settlement Agreement(DSA) for signature</p>
+                    <p><strong
+                        >Please have it signed and share the signed document in hard copy with the Marketing department to take the following actions</strong>
+                    </p>
+                    <ul>
+                        <li>Share with the customer to co-sign</li>
+                        <li
+                        >Scan and upload into the ERP system the signed copy of the document</li>
+                    </ul>
+                </div>
+            </field>
+        </record>
+
+        <record id="finalized_dsa_uploaded_template" model="mail.template">
+            <field
+                name="name"
+            >Payment Plan: Debt Settlement Agreement(DSA) Document Finalized</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field
+                name="subject"
+            >Payment Plan: Debt Settlement Agreement(DSA) Document Finalized</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p
+                    >Customer has signed the DSA Document prepared by the Executive Office.</p>
+
+                    <p
+                    >A scanned copy of this document has been uploaded onto their payment plan with reference <a
+                            href="${ ctx['payment_plan_link']}"
+                        >${ ctx['payment_plan_ref'] }</a></p>
+                    <p>Plan is now ready for activation. Please visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >here</a> to activate
+                    </p>
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+
+                </div>
+            </field>
+        </record>
+
+        <record id="payment_plan_at_legal_template" model="mail.template">
+            <field name="name">Payment Plan: Plan At Legal</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan At Legal</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >Payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> is at the Legal stage.</p>
+
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="payment_plan_at_customer_approval_template" model="mail.template">
+            <field name="name">Payment Plan: Plan At Customer Approval</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan: Plan At Customer Approval</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p><a
+                            href="${ ctx['payment_plan_link']}"
+                        >Payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> is at the Customer Approval stage.</p>
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to review plan with customer and take action.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="payment_plan_activated_template" model="mail.template">
+            <field name="name">Payment Plan Activated</field>
+            <field
+                name="model_id"
+                ref="account_payment_plan.model_account_payment_plan"
+            />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="subject">Payment Plan Activated</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear,<br />
+
+                    <p>The <a
+                            href="${ ctx['payment_plan_link']}"
+                        >payment plan</a> from <strong
+                        >${ ctx['customer_name'] }</strong> with reference number <a
+                            href="${ ctx['payment_plan_link']}"
+                        ><strong
+                            >${ ctx['payment_plan_ref'] }</strong></a> has been activated.</p>
+                    % if ctx['parent_plan_ref']:
+                    <p
+                    >Consider this plan as a revision that will replace the current customer plan with reference  <strong
+                        >${ ctx['parent_plan_ref'] }</strong>. </p>
+                    <p>To this effect, the current plan with reference <strong
+                        >${ ctx['parent_plan_ref'] }</strong> will be cancelled when this new plan is activated.</p>
+                    % endif
+                    <p>Visit <a
+                            href="${ ctx['payment_plan_link']}"
+                        >plan</a> to view plan.</p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_order_decline_wizard_form">
+            <field name="name">oms.decline.order.wizard.form</field>
+            <field name="model">oms.decline.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Decline">
+                    <sheet>
+                        <group>
+                            <field name="comment" />
+                            <field
+                                name="counter_price"
+                                groups="oms.group_trading_user"
+                                required="1"
+                                attrs="{'required': [('order_state', '=', 'confirm')]}"
+                            />
+                            <field
+                                name="payment_term_id"
+                                groups="oms.group_trading_user,oms.group_credit_control_user"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field name="document" />
+                            <field name="order_state" invisible="1" />
+                        </group>
+                        <footer>
+                            <button
+                                string="Decline"
+                                name="btn_do_decline_order"
+                                type="object"
+                                class="oe_highlight"
+                            >
+                            </button>
+                            <button
+                                string="Cancel"
+                                class="btn-default"
+                                special="cancel"
+                            >
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

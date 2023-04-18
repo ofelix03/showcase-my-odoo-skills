@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_order_cancel_wizard_form">
+            <field name="name">oms.cancel.order.wizard.form</field>
+            <field name="model">oms.cancel.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cancel Order">
+                    <sheet>
+                        <group>
+                            <field name="reason" />
+                        </group>
+                        <footer>
+                            <button
+                                string="Cancel Order"
+                                name="btn_do_cancel_order"
+                                type="object"
+                                class="oe_highlight"
+                            >
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

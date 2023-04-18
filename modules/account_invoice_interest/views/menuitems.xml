@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <menuitem
+            id="invoice_interest_menu_root"
+            name="Invoice Interest"
+            parent="treasury.root_menu"
+        />
+
+        <menuitem
+            id="invoice_interest_menu"
+            parent="invoice_interest_menu_root"
+            name="Invoices"
+            action="invoice_interest_action"
+        />
+
+        <menuitem
+            id="invoice_interest_rate"
+            name="Invoice Interest Rate"
+            groups="treasury.group_treasury_manager"
+            parent="treasury.settings_root_menu"
+            action="invoice_interest_rate_action"
+        />
+    </data>
+</odoo>

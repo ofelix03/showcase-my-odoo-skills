@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_decline_history_tree">
+            <field name="name">decline.history.tree</field>
+            <field name="model">oms.order.decline.history</field>
+            <field name="arch" type="xml">
+                <tree
+                    default_order="write_date desc"
+                    create="false"
+                    edit="false"
+                    duplicate="false"
+                    delete="false"
+                >
+                    <field name="declined_by" />
+                    <field name="comment" />
+                    <field name="payment_term_id" />
+                    <field name="counter_price" />
+                    <field name="document" widget="image" />
+                    <field name="create_date" string="Date" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_decline_history_form">
+            <field name="name">decline.history.form</field>
+            <field name="model">oms.order.decline.history</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="comment" />
+                            <field
+                                name="counter_price"
+                                attrs="{'invisible': [('counter_price', '=', 0.0)]}"
+                            />
+                            <field name="payment_term_id" />
+                            <field name="create_date" string="Date" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

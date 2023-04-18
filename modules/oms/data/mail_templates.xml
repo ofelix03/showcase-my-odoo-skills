@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="order_management_mail_template" model="mail.template">
+            <field name="name">order_management_mail_template</field>
+            <field name="model_id" ref="model_oms_order" />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <div>
+                    Hello,<br /><br />
+
+                    <p>A purchase request by <strong
+                        >${ ctx['customer'] }</strong> to buy <strong
+                        >${ ctx['quantity'] } ${ ctx['uom'] }</strong> of <strong
+                        >${ ctx['product'] }</strong> has been ${ ctx['state'] } by <strong
+                        >${ ctx['user'] }</strong> from the ${ ctx['department'] }.</p>
+
+                    <p
+                    >Kindly click the button below to access the transaction and take the necessary action.</p>
+
+                    <p><a href="${ ctx['access_link'] }"><button
+                                style="background-color: #5c5b80; color: white; border: 1pt; border-radius: 4px; font-size: 14px; font-weight: bold"
+                            >View Order</button></a></p>
+                    <p>Thank you</p>
+
+                    <p>Regards.</p><br />
+
+
+                    <p><strong
+                        >This is a system generated email. Please do not reply to this message.</strong></p>
+
+                    <p>---</p>
+                    <p>DISCLAIMER:</p>
+                    <p
+                    >This email (and it's attachment) is confidential and intended solely for the use of the individual or organization to whom it is addressed.
+                        Any opinions or advice presented are solely those of the author and do not necessarily represent those of the Quantum Group of Companies.
+                        If you are not the intended recipient of this email, you should not copy, modify, distribute or take any action in reliance on it.
+                        If you have received this email in error please notify the sender and delete this email from your system.
+                        Although this email has been checked for viruses and other defects, no responsibility can be accepted for any loss or damage arising from its receipt or use. </p>
+
+                </div>
+            </field>
+        </record>
+
+        <record id="order_management_load_mail_template" model="mail.template">
+            <field name="name">loaded_order_mail_template</field>
+            <field name="model_id" ref="model_oms_order" />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <div>
+                    Hello,<br /><br />
+
+                    <p><strong>${ ctx['customer'] }</strong> has loaded <strong
+                        >${ ctx['product'] }</strong> of quantity <strong
+                        >${ ctx['quantity'] } ${ ctx['uom'] }</strong> from <strong
+                        >${ ctx['warehouse'] }</strong>.</p>
+
+                    <p
+                    >Kindly click the button below to access the transaction and take the necessary action.</p>
+
+                    <p><a href="${ ctx['access_link'] }"><button
+                                style="background-color: #5c5b80; color: white; border: 1pt; border-radius: 4px; font-size: 14px; font-weight: bold"
+                            >View Order</button></a></p>
+
+                    <p>Thank you</p>
+
+                    <p>Regards.</p><br />
+
+
+                    <p><strong
+                        >This is a system generated email. Please do not reply to this message.</strong></p>
+
+                    <p>---</p>
+                    <p>DISCLAIMER:</p>
+                    <p
+                    >This email (and it's attachment) is confidential and intended solely for the use of the individual or organization to whom it is addressed.
+                        Any opinions or advice presented are solely those of the author and do not necessarily represent those of the Quantum Group of Companies.
+                        If you are not the intended recipient of this email, you should not copy, modify, distribute or take any action in reliance on it.
+                        If you have received this email in error please notify the sender and delete this email from your system.
+                        Although this email has been checked for viruses and other defects, no responsibility can be accepted for any loss or damage arising from its receipt or use. </p>
+
+                </div>
+            </field>
+        </record>
+
+
+        <record
+            id="order_management_system_approved_order_mail_template"
+            model="mail.template"
+        >
+            <field
+                name="name"
+            >order_management_system_approved_order_mail_template</field>
+            <field name="model_id" ref="model_oms_order" />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <div>
+                    Hello,<br /><br />
+
+                    <p>A purchase request by <strong
+                        >${ ctx['customer'] }</strong> to buy <strong
+                        >${ ctx['quantity'] } ${ ctx['uom'] }</strong> of <strong
+                        >${ ctx['product'] }</strong> has been auto approved by the system.</p>
+
+                    <p>You can review the credit information using the link bellow.</p>
+
+                    <p><a href="${ ctx['access_link'] }"><button
+                                style="background-color: #5c5b80; color: white; border: 1pt; border-radius: 4px; font-size: 14px; font-weight: bold"
+                            >View Order</button></a></p>
+
+                    <p>Thank you</p>
+
+                    <p>Regards.</p><br />
+
+
+                    <p><strong
+                        >This is a system generated email. Please do not reply to this message.</strong></p>
+
+                    <p>---</p>
+                    <p>DISCLAIMER:</p>
+                    <p
+                    >This email (and it's attachment) is confidential and intended solely for the use of the individual or organization to whom it is addressed.
+                        Any opinions or advice presented are solely those of the author and do not necessarily represent those of the Quantum Group of Companies.
+                        If you are not the intended recipient of this email, you should not copy, modify, distribute or take any action in reliance on it.
+                        If you have received this email in error please notify the sender and delete this email from your system.
+                        Although this email has been checked for viruses and other defects, no responsibility can be accepted for any loss or damage arising from its receipt or use. </p>
+
+                </div>
+            </field>
+        </record>
+
+        <record id="truck_release_mail_template" model="mail.template">
+            <field name="name">truck_release_mail_template</field>
+            <field name="model_id" ref="model_oms_order" />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <div>
+                    Hello,<br /><br />
+
+                    <p>Payment confirmed for order from <strong
+                        >${ ctx['customer'] }</strong>, you can go ahead and release the trucks with registration numbers:  <strong
+                        >${ ctx['truck_numbers'] }</strong>.</p>
+
+                    <p
+                    >Kindly click the button below to access the transaction and take the necessary action.</p>
+
+                    <p><a href="${ ctx['access_link'] }"><button
+                                style="background-color: #5c5b80; color: white; border: 1pt; border-radius: 4px; font-size: 14px; font-weight: bold"
+                            >View Order</button></a></p>
+
+
+                    <p>Thank you</p>
+
+                    <p>Regards.</p><br />
+
+
+                    <p><strong
+                        >This is a system generated email. Please do not reply to this message.</strong></p>
+
+                    <p>---</p>
+                    <p>DISCLAIMER:</p>
+                    <p
+                    >This email (and it's attachment) is confidential and intended solely for the use of the individual or organization to whom it is addressed.
+                        Any opinions or advice presented are solely those of the author and do not necessarily represent those of the Quantum Group of Companies.
+                        If you are not the intended recipient of this email, you should not copy, modify, distribute or take any action in reliance on it.
+                        If you have received this email in error please notify the sender and delete this email from your system.
+                        Although this email has been checked for viruses and other defects, no responsibility can be accepted for any loss or damage arising from its receipt or use. </p>
+
+                </div>
+            </field>
+        </record>
+
+        <record id="escalated_notification_mail_template" model="mail.template">
+            <field name="name">escalated_notification_mail_template</field>
+            <field name="model_id" ref="model_oms_escalated_notification" />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <div>
+                    Hello,<br /><br />
+
+                    <p>Order with reference <a href="${ ctx['access_link']}"><strong
+                            >${ ctx['order_ref'] }</strong></a> has not been acted on for the past <strong
+                        >${ ctx['inactivity_period'] }</strong> mins.</p>
+                    <p>Kindly respond to this.</p>
+
+                    <p><a href="${ ctx['access_link'] }"><button
+                                style="background-color: #5c5b80; color: white; border: 1pt; border-radius: 4px; font-size: 14px; font-weight: bold"
+                            >View Order</button></a></p>
+
+                    <p>Thank you</p>
+
+                    <p>Regards.</p><br />
+
+
+                    <p><strong
+                        >This is a system generated email. Please do not reply to this message.</strong></p>
+
+                    <p>---</p>
+                    <p>DISCLAIMER:</p>
+                    <p
+                    >This email (and it's attachment) is confidential and intended solely for the use of the individual or organization to whom it is addressed.
+                        Any opinions or advice presented are solely those of the author and do not necessarily represent those of the Quantum Group of Companies.
+                        If you are not the intended recipient of this email, you should not copy, modify, distribute or take any action in reliance on it.
+                        If you have received this email in error please notify the sender and delete this email from your system.
+                        Although this email has been checked for viruses and other defects, no responsibility can be accepted for any loss or damage arising from its receipt or use. </p>
+
+                </div>
+            </field>
+        </record>
+
+
+        <record id="reset_order_to_draft_mail_template2" model="mail.template">
+            <field name="name">reset_order_to_draft_mail_template</field>
+            <field name="model_id" ref="model_oms_order" />
+            <field name="email_from">apps@quantumgroupgh.com</field>
+            <field name="auto_delete" eval="True" />
+            <field name="body_html" type="html">
+                <div>
+                    Hello,<br /><br />
+
+                    <p>Order with reference number <a
+                            href="${ ctx['access_link']}"
+                        ><strong
+                            >${ ctx['order_number'] }</strong></a> has been reset to draft by <strong
+                        >${ ctx['action_by'] }</strong>.</p>
+                    <p>Reason stated is <strong>${ ctx['reset_type'] }</strong>: <strong
+                        >${ ctx['message'] }</strong></p>
+                    <p
+                    >Please on that this issue will be resolved and order re-proposed again</p>
+
+                    <p><a href="${ ctx['access_link'] }"><button
+                                style="background-color: #5c5b80; color: white; border: 1pt; border-radius: 4px; font-size: 14px; font-weight: bold"
+                            >View Order</button></a></p>
+
+                    <p>Thank you</p>
+
+                    <p>Regards.</p><br />
+
+
+                    <p><strong
+                        >This is a system generated email. Please do not reply to this message.</strong></p>
+
+                    <p>---</p>
+                    <p>DISCLAIMER:</p>
+                    <p
+                    >This email (and it's attachment) is confidential and intended solely for the use of the individual or organization to whom it is addressed.
+                        Any opinions or advice presented are solely those of the author and do not necessarily represent those of the Quantum Group of Companies.
+                        If you are not the intended recipient of this email, you should not copy, modify, distribute or take any action in reliance on it.
+                        If you have received this email in error please notify the sender and delete this email from your system.
+                        Although this email has been checked for viruses and other defects, no responsibility can be accepted for any loss or damage arising from its receipt or use. </p>
+
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,29 @@
+<odoo>
+
+    <record model="ir.ui.view" id="decline_draft_dsa_form">
+        <field name="name">payment.plan.decline.draft.dsa</field>
+        <field name="model">account.decline.payment.plan</field>
+        <field name="arch" type="xml">
+            <form string="Payment Plan Decline Form">
+                <sheet>
+                    <group>
+                        <field name="reason" />
+                        <field name="document" />
+                    </group>
+                    <footer>
+                        <button
+                            string="DECLINE"
+                            name="action_decline_draft_dsa"
+                            type="object"
+                            class="oe_highlight"
+                        >
+                        </button>
+                        <button string="CANCEL" class="btn-default" special="cancel">
+                        </button>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

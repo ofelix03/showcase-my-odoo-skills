@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<odoo>
+    <menuitem
+        id="order_management_root_menu"
+        name="OMS"
+        web_icon="oms,static/description/icon.png"
+    />
+
+    <record model="ir.actions.act_window" id="order_management_action">
+        <field name="name">Order Management</field>
+        <field name="res_model">oms.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context" eval="{'search_default_current_date': 1}" />
+    </record>
+
+    <menuitem
+        id="order_management_menu"
+        name="Order Management"
+        action="order_management_action"
+        parent="order_management_root_menu"
+        sequence="1"
+    />
+
+
+     <record id="escalated_notification_action" model="ir.actions.act_window">
+          <field name="name">Escalated Notification</field>
+          <field name="res_model">oms.escalated.notification</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+
+
+    <menuitem
+        id="menu_config"
+        name="Configuration"
+        parent="order_management_root_menu"
+        groups="oms.group_order_management_admin"
+    />
+
+    <menuitem
+        id="menu_escalated_notifications"
+        name="Escalated Notifications"
+        parent="menu_config"
+        action="escalated_notification_action"
+        groups="oms.group_order_management_admin"
+    />
+</odoo>

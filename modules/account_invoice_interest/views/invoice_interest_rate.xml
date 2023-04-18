@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Invoice Interest Rate -->
+        <record id="annual_interest_rate" model="ir.ui.view">
+            <field name="name">account.invoice.interest.rate</field>
+            <field name="model">account.invoice.interest.rate</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="currency_id" />
+                    <field name="current_rate" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="annual_interest_rate_daily" model="ir.ui.view">
+            <field name="name">account.invoice.interest.rate.daily</field>
+            <field name="model">account.invoice.interest.rate.daily</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="date" />
+                    <field name="rate" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="interest_rate_daily_action" model="ir.actions.act_window">
+            <field name="name">Invoice Daily Interest Rate</field>
+            <field name="res_model">account.invoice.interest.rate.daily</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('rate_id','=', active_id)]</field>
+        </record>
+
+        <record id="interest_rate_form" model="ir.ui.view">
+            <field name="name">account.invoice.interest.rate</field>
+            <field name="model">account.invoice.interest.rate</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button
+                                class="oe_stat_button"
+                                icon="fa-money"
+                                name="%(interest_rate_daily_action)d"
+                                type="action"
+                            >
+                                Daily Rates
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="currency_id" />
+                                <field name="current_rate" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Invoice Interest Rates -->
+        <record id="invoice_interest_rate_action" model="ir.actions.act_window">
+            <field name="name">Invoice Interest Rates</field>
+            <field name="res_model">account.invoice.interest.rate</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

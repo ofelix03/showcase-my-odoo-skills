@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="inherited_res_partner_view" model="ir.ui.view">
+            <field name="name">inherited.res.partner.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <field name="category_id" position="after">
+                    <!--                    <field name="interest_tag_ids" widget="many2many_tags"/>-->
+                    <field name="interest_accrued_collected" />
+                </field>
+            </field>
+        </record>
+
+
+        <record id="action_interest_category_form" model="ir.actions.act_window">
+            <field name="name">Interest Categories</field>
+            <field name="res_model">partner.interest.tag</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="menu_interest_category_form"
+            action="action_interest_category_form"
+            name="Interest Categories"
+            sequence="4"
+            parent="contacts.res_partner_menu_config"
+        />
+
+        <record id="partner_interest_tag_form" model="ir.ui.view">
+            <field name="name">partner.interest.tag.form</field>
+            <field name="model">partner.interest.tag</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="partner_interest_tag_tree" model="ir.ui.view">
+            <field name="name">partner.interest.tag.tree</field>
+            <field name="model">partner.interest.tag</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

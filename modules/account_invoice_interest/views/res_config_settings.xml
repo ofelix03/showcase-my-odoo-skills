@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_two_form" model="ir.ui.view">
+            <field name="name">account.invoice.interest.config.settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="70" />
+            <field name="inherit_id" ref="treasury.res_config_settings_view" />
+            <field name="arch" type="xml">
+                <xpath
+                    expr="//div[hasclass('treasury_base_settings_block')]"
+                    position="inside"
+                >
+                    <h2>Invoices Interest Computation</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="lpg_product_after_overdue_days_param" />
+                                <div class="text-muted">
+                                    The number of days after which interest is computed on the outstanding of the invoice
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field
+                                            name="lpg_product_after_overdue_days_param"
+                                            style="width: 50px; text-align:center;"
+                                        /> days after invoice is overdue
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="o_setting_right_pane">
+                                <label for="white_product_after_overdue_days_param" />
+                                <div class="text-muted">
+                                    The number of days after which interest is computed on the outstanding of the invoice
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field
+                                            name="white_product_after_overdue_days_param"
+                                            style="width: 50px; text-align:center;"
+                                        /> days after invoice is overdue
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

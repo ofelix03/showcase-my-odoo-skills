@@ -1,0 +1,16 @@
+<odoo>
+
+    <record model="ir.ui.view" id="payment_plan_decline_history_tree_view">
+        <field name="name">payment.plan.decline.history.tree</field>
+        <field name="model">account.payment.plan.decline.history</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Plan Decline History Tree">
+                <field name="declined_at" />
+                <field name="reason" />
+                <field name="document" widget="binary" />
+                <field name="declined_at_state" />
+                <field name="declined_by_id" />
+            </tree>
+        </field>
+    </record>
+</odoo>

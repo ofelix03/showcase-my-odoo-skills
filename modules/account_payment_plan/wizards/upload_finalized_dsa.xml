@@ -1,0 +1,31 @@
+<odoo>
+
+    <record model="ir.ui.view" id="upload_finalized_dsa_form">
+        <field name="name">payment.plan.upload.finalized.dsa.form</field>
+        <field name="model">account.upload.dsa.payment.plan</field>
+        <field name="arch" type="xml">
+            <form string="Upload DSA Form">
+                <sheet>
+                    <group>
+                        <group>
+                        <field name="dsa_doc" />
+                    </group>
+                    </group>
+                    <footer>
+                        <button
+                            string="Mark As DSA Finalized"
+                            help="Forward this document to Credit Control for activation"
+                            name="action_upload_finalized_dsa"
+                            type="object"
+                            class="oe_highlight"
+                        >
+                        </button>
+                        <button string="CANCEL" class="btn-default" special="cancel">
+                        </button>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

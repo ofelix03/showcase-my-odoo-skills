@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="order_reset_to_draft_wizard" model="ir.ui.view">
+            <field name="name">order.reset.to.draft</field>
+            <field name="model">oms.reset.order.to.draft.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="reset_type" />
+                            <field name="message" />
+                        </group>
+                    </sheet>
+
+                    <footer>
+                        <button
+                            name="reset_to_draft"
+                            type="object"
+                            string="Reset"
+                            class="btn-primary"
+                        />
+
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

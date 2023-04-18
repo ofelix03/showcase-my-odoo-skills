@@ -1,0 +1,29 @@
+<odoo>
+
+    <record model="ir.ui.view" id="customer_declined_draft_dsa_form">
+        <field name="name">payment.plan.customer.decline.draft.dsa</field>
+        <field name="model">account.decline.payment.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="reason" />
+                        <field name="document" />
+                    </group>
+                    <footer>
+                        <button
+                            string="SUBMIT TO LEGAL"
+                            name="action_customer_decline_draft_dsa"
+                            type="object"
+                            class="oe_highlight"
+                        >
+                        </button>
+                        <button string="CANCEL" class="btn-default" special="cancel">
+                        </button>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

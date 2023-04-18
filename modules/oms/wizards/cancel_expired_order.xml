@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_expired_order_cancel_wizard_form">
+            <field name="name">oms.cancel.expired.order.wizard.form</field>
+            <field name="model">oms.cancel.expired.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cancel Expired Order">
+                    <sheet>
+                        <group>
+                            <field
+                                name="expired_order_ids"
+                                widget="many2many_tags"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field name="reason" />
+                        </group>
+                        <footer>
+                            <button
+                                string="Cancel Orders"
+                                name="btn_do_cancel_orders"
+                                type="object"
+                                class="oe_highlight"
+                            >
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

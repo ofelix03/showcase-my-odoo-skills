@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_sale_order_wizard_form">
+            <field name="name">oms.generate.sale.order.wizard.form</field>
+            <field name="model">oms.generate.sale.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Sale Order">
+                    <sheet>
+                        <group>
+                            <field
+                                name="sale_order_analytic_id"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                        </group>
+                        <footer>
+                            <button
+                                string="Create"
+                                name="btn_create_sale_order"
+                                type="object"
+                                class="oe_highlight"
+                            >
+                            </button>
+                            <button
+                                string="Cancel"
+                                class="btn-default"
+                                special="cancel"
+                            >
+                            </button>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

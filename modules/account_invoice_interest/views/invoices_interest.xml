@@ -1,0 +1,214 @@
+<odoo>
+    <data>
+
+        <!-- Invoice Interest - Search Form -->
+        <record id="invoice_interest_search" model="ir.ui.view">
+            <field name="name">account.invoice.interest.search</field>
+            <field name="model">account.invoice.interest</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="invoice_id" />
+                    <field name="partner_id" />
+
+                    <group>
+                        <filter
+                            name="interest_accrue"
+                            string="Accrued"
+                            domain="[('state', '=', 'accrue')]"
+                        />
+
+                        <filter
+                            name="interest_accrued_and_collected"
+                            string="Accrued &amp; Collected"
+                            domain="[('state', '=', 'accrue_and_collect')]"
+                        />
+
+                        <filter
+                            name="contract_debt_collect_company"
+                            string="Contracted Debt Collector Company"
+                            domain="[('state', '=', 'contract_debt_collector')]"
+                        />
+
+                          <filter
+                            name="legal_action"
+                            string="Legal Action"
+                            domain="[('state', '=', 'legal_action')]"
+                        />
+
+                    </group>
+
+                    <separator />
+
+                    <group>
+                        <filter
+                            name="invoice_paid"
+                            string="Invoice Paid"
+                            domain="[('invoice_state', '=', 'paid')]"
+                        />
+                        <filter
+                            name="invoice_open"
+                            string="Invoice Open"
+                            domain="[('invoice_state', 'in', ['not_paid', 'partial'])]"
+                        />
+                    </group>
+
+                    <separator />
+
+                    <filter
+                        string="Customer"
+                        name="groupby_partner"
+                        domain="[]"
+                        context="{'group_by':'partner_id'}"
+                    />
+
+                </search>
+            </field>
+        </record>
+
+
+        <!-- Invoice Daily Interest - Search View -->
+        <record id="invoice_daily_interest_search" model="ir.ui.view">
+            <field name="name">account.invoice.interest.daily</field>
+            <field name="model">account.invoice.interest.daily</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="value_date" />
+                    <filter
+                        string="Value Date"
+                        name="value_date"
+                        context="{'group_by':'value_date:month'}"
+                    />
+                </search>
+            </field>
+        </record>
+
+        <!-- Daily Interest  - Tree View -->
+        <record id="daily_interest_list" model="ir.ui.view">
+            <field name="name">Daily Interest List</field>
+            <field name="model">account.invoice.interest.daily</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false" delete="false">
+                    <field name="value_date" />
+                    <field name="interest_rate" />
+                    <field name="daily_interest_rate" />
+                    <field name="principal_amount" widget="monetary" />
+                    <field name="interest_due" widget="monetary" />
+                    <field name="outstanding_due" widget="monetary" />
+                    <field name="invoice_currency_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Daily Interest - Action Window -->
+        <record id="invoice_daily_interest_action" model="ir.actions.act_window">
+            <field name="name">Daily Invoice Interests</field>
+            <field name="res_model">account.invoice.interest.daily</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('invoice_interest_id','=', active_id)]</field>
+        </record>
+
+        <!-- Invoice Interest Form -->
+        <record id="invoice_interest_form" model="ir.ui.view">
+            <field name="name">Invoice Interest Form</field>
+            <field name="model">account.invoice.interest</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button
+                            type="object"
+                            name="action_compute_daily_interest"
+                            string="Compute Interest"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="accrue,accrue_and_collect,contract_debt_collector,legal_action,"
+                        />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                            <button
+                                class="oe_stat_button"
+                                icon="fa-list"
+                                name="%(invoice_daily_interest_action)d"
+                                type="action"
+                            >
+                                <field
+                                    string="Daily Interest"
+                                    name="total_interest"
+                                    widget="monetary"
+                                    options="{'currency_field': 'invoice_currency_id'}"
+                                />
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="form_is_readonly" invisible="1" />
+                                <field
+                                    name="invoice_id"
+                                    attrs="{'readonly': [('form_is_readonly', '=', True)]}"
+                                />
+                                <field name="invoice_state" />
+                                <field name="invoice_currency_id" />
+                                <field name="partner_id" />
+                                <field name="invoice_date" />
+                                <field name="invoice_due_date" />
+                                <field name="overdue_days" />
+                            </group>
+                            <group>
+                                <field name="outstanding_amount" />
+                                <field name="total_interest" />
+                                <field name="total_outstanding" />
+                                <br /><br />
+                                <field name="last_daily_interest_accrued_at" />
+                                <field name="last_daily_accrued_interest" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field
+                            name="message_follower_ids"
+                            widget="mail_followers"
+                            groups="base.group_user"
+                        />
+                        <field
+                            name="message_ids"
+                            widget="mail_thread"
+                            options='{"thread_level": 1}'
+                        />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Invoice Interest Tree -->
+        <record id="invoice_interest_tree" model="ir.ui.view">
+            <field name="name">account.invoice.interest</field>
+            <field name="model">account.invoice.interest</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="invoice_number" />
+                    <field name="invoice_currency_id" invisible="1" />
+                    <field name="partner_id" />
+                    <field name="invoice_date" />
+                    <field name="invoice_due_date" />
+                    <field name="overdue_days" />
+                    <field name="outstanding_amount" />
+                    <field name="total_interest" />
+                    <field name="total_outstanding" />
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="invoice_interest_action" model="ir.actions.act_window">
+            <field name="name">Invoices Interest</field>
+            <field name="res_model">account.invoice.interest</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_interest_accrue': 1}</field>
+        </record>
+
+
+    </data>
+</odoo>

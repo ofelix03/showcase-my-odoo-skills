@@ -1,0 +1,31 @@
+<odoo>
+
+    <record model="ir.ui.view" id="upload_draft_dsa_form">
+        <field name="name">payment.plan.upload.draft.dsa.form</field>
+        <field name="model">account.upload.dsa.payment.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                        <field name="dsa_doc" />
+                    </group>
+                    </group>
+                    <footer>
+                        <button
+                            string="Request DSA Approval"
+                            name="action_upload_draft_dsa"
+                            type="object"
+                            class="oe_highlight"
+                            help="Forward this document to approver"
+                        >
+                        </button>
+                        <button string="CANCEL" class="btn-default" special="cancel">
+                        </button>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,407 @@
+<odoo>
+    <data>
+
+        <!-- Search view -->
+        <record id="payment_plan_search" model="ir.ui.view">
+            <field name="name">account.payment.plan.search</field>
+            <field name="model">account.payment.plan</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="product_type" />
+                    <field name="payment_term" />
+                    <separator />
+                    <filter
+                        name="filter_plans_in_draft"
+                        domain="[('state', '=', 'draft')]"
+                        string="Draft"
+                    />
+                    <filter
+                        name="filter_plans_waiting_review"
+                        domain="[('state', '=', 'waiting_review')]"
+                        string="Waiting Review"
+                    />
+                    <filter
+                        name="filter_plans_reviewed"
+                        domain="[('state', '=', 'waiting_approval')]"
+                        string="Reviewed"
+                    />
+                    <filter
+                        name="filter_plans_waiting_approval"
+                        domain="[('state', '=', 'waiting_approval')]"
+                        string="Waiting Approval"
+                    />
+                    <filter
+                        name="filter_plans_approved"
+                        domain="[('state', '=', 'approved')]"
+                        string="Approved"
+                    />
+                    <filter
+                        name="filter_plans_legal"
+                        domain="[('state', '=', 'legal')]"
+                        string="Legal"
+                    />
+                    <filter
+                        name="filter_plans_customer_approval"
+                        domain="[('state', '=', 'customer_approval')]"
+                        string="Legal"
+                    />
+                    <filter
+                        name="filter_plans_active"
+                        domain="[('state', '=', 'active')]"
+                        string="Active"
+                    />
+                    <filter
+                        name="filter_plans_defaulting"
+                        domain="[('state', '=', 'is_defaulting')]"
+                        string="Defaulting"
+                    />
+                    <filter
+                        name="filter_plans_is_paying"
+                        domain="[('state', '=', 'is_paying')]"
+                        string="Is Paying"
+                    />
+                    <filter
+                        name="filter_plans_fully_paid"
+                        domain="[('state', '=', 'is_fully_paid')]"
+                        string="Fully Paid"
+                    />
+                    <separator />
+                    <filter
+                        name="filter_weekly_payment_term"
+                        domain="[('payment_term', '=', 'weekly')]"
+                        string="Weekly Payment Term"
+                    />
+                    <filter
+                        name="filter_monthly_payment_term"
+                        domain="[('payment_term', '=', 'monthly')]"
+                        string="Monthly Payment Term"
+                    />
+                    <filter
+                        name="filter_specific_payment_term"
+                        domain="[('payment_term', '=', 'specific')]"
+                        string="Specific Payment Term"
+                    />
+                    <separator />
+                    <filter
+                        name="filter_active_plans"
+                        domain="[('state', 'in', ['active', 'is_defaulting', 'is_paying', 'is_fully_paid'])]"
+                        string="Active Plans"
+                    />
+                    <group string="Group By">
+                        <filter
+                            name="group_customer"
+                            context="{'group_by': 'partner_id'}"
+                            string="Customer"
+                        />
+                        <filter
+                            name="group_payment_term"
+                            context="{'group_by': 'payment_term'}"
+                            string="Payment Term"
+                        />
+                        <filter
+                            name="group_product_type"
+                            context="{'group_by': 'product_type'}"
+                            string="Product"
+                        />
+                        <filter name="group_state" context="{'group_by': 'state'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record id="payment_plan_tree" model="ir.ui.view">
+            <field name="name">payment.plan.tree</field>
+            <field name="model">account.payment.plan</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="product_type" />
+                    <field name="payment_term" />
+                    <field name="currency_id" invisible="1" />
+                    <field name="submitted_on" />
+                    <field name="amount" widget="monetary" />
+                    <field name="received_amount" />
+                    <field name="outstanding_amount" />
+                    <field name="state" />
+                    <field name="form_load_trigger" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- Form view -->
+        <record id="payment_plan_form" model="ir.ui.view">
+            <field name="name">account.payment.plan.form</field>
+            <field name="model">account.payment.plan</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button
+                            name="action_submit_for_review"
+                            string="Submit for Review"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_create"
+                            confirm="Please confirm you want to submit plan for review"
+                        />
+                        <button
+                            name="action_add_review_comment"
+                            string="Add Review Comment"
+                            attrs="{'invisible': [('state', '!=', 'waiting_review')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_review"
+                        />
+                        <button
+                            name="action_approve"
+                            string=" Approve"
+                            confirm="Please confirm you want to approve plan"
+                            attrs="{'invisible': [('state', '!=', 'waiting_approval')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_approve"
+                        />
+                        <button
+                            name="action_decline_at_approval"
+                            string="Decline"
+                            attrs="{'invisible': [('state', '!=', 'waiting_approval')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_approve"
+                        />
+                        <button
+                            name="action_legal_upload_draft"
+                            string=" Upload Draft DSA"
+                            help="Upload the draft version of the Document Settlement Agreement document for approval"
+                            attrs="{'invisible': [('state', '!=', 'legal')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_legal"
+                        />
+                        <button
+                            name="action_approve_draft_dsa"
+                            string=" Approve Draft DSA"
+                            attrs="{'invisible': [('state', '!=', 'draft_dsa_waiting_approval')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_approve"
+                            confirm="Please confirm you want to approve draft Debt Settlement Agreement(DSA) document"
+                        />
+                        <button
+                            name="action_decline_at_draft_dsa_approval"
+                            string=" Decline Draft DSA"
+                            attrs="{'invisible': [('state', '!=', 'draft_dsa_waiting_approval')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_approve"
+                        />
+
+                        <button
+                            name="action_confirm_customer_approved_draft_dsa"
+                            string="Customer Accepted DSA"
+                            attrs="{'invisible': [('state', '!=', 'customer_approval')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_create"
+                            help="This confirms if the customer has accepted the terms of the draft Debt Settlement Agreement(DSA)"
+                            confirm="Please confirm customer accepted the terms of the draft Debt Settlement Agreement(DSA)"
+                        />
+                        <button
+                            name="action_customer_declined_draft_dsa"
+                            string="Customer Declined DSA"
+                            attrs="{'invisible': [('state', '!=', 'customer_approval')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_create"
+                            help="Please confirm customer disapproves the the terms of the draft Debt Settlement Agreement(DSA)"
+                        />
+                        <button
+                            name="action_legal_upload_finalized_dsa"
+                            string="Upload Finalized DSA"
+                            attrs="{'invisible': [('state', '!=', 'customer_approved')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_create"
+                        />
+                        <button
+                            name="action_activate_plan"
+                            string=" Activate"
+                            attrs="{'invisible': [('state', '!=', 'ready')]}"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_review"
+                            confirm="Please confirm you want to activate this plan"
+                        />
+                        <button
+                            name="action_update_plan_info"
+                            class="oe_button_box"
+                            string="REFRESH"
+                            icon="fa-refresh"
+                            attrs="{'invisible': [('state', 'in', ['draft', 'waiting_review', 'waiting_approval', 'approved', 'legal', 'draft_dsa_waiting_approval', 'draft_dsa_approved', 'customer_approval', 'customer_approved', 'ready' ])]}"
+                            type="object"
+                            help="Refresh plan to pull the latest information on balance on plan, received and applied payments, etc"
+                        />
+                        <button
+                            name="action_revise_payment_plan"
+                            string="Revise Plan"
+                            type="object"
+                            groups="account_payment_plan.group_payment_plan_create"
+                            help="Create new payment plan from existing payment plan"
+                            attrs="{'invisible': [('state', 'not in', ('active', 'is_paying', 'is_defaulting'))]}"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="draft,waiting_review,waiting_approval,approved,legal,ready,active"
+                        />
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field
+                                name="name"
+                                attrs="{'invisible': [('name', '=', None)]}"
+                            />
+                        </h1>
+
+                        <group name="group_top">
+                            <group name="group_left">
+                                <field
+                                    name="partner_id"
+                                    attrs="{'readonly':['|','|',('state', '!=', 'draft'), ('can_edit', '=', False), ('parent_plan_id', '!=', False)]}"
+                                    force_save="1"
+                                />
+                                <field
+                                    name="product_type"
+                                    attrs="{'readonly':['|','|',('state', '!=', 'draft'), ('can_edit', '=', False), ('parent_plan_id', '!=', False)]}"
+                                    force_save="1"
+                                />
+                                <field
+                                    name="payment_term"
+                                    attrs="{'readonly':['|',('state', '!=', 'draft'), ('can_edit', '=', False)]}"
+                                />
+                                <field
+                                    name="start_date"
+                                    attrs="{'invisible': [('payment_term', 'not in', ('weekly', 'monthly') )], 'required': [('payment_term', 'in', ('weekly', 'monthly') )], 'readonly':['|',('state', '!=', 'draft'), ('can_edit', '=', False)] }"
+                                />
+                                <field
+                                    name="end_date"
+                                    attrs="{'invisible': [('payment_term', 'not in', ('weekly', 'monthly') )], 'required': [('payment_term', 'in', ('weekly', 'monthly'))], 'readonly':['|',('state', '!=', 'draft'), ('can_edit', '=', False)] }"
+                                />
+                                <field
+                                    name="submitted_on"
+                                    attrs="{'readonly':['|',('state', '!=', 'draft'), ('is_declined', '=', True)]}"
+                                />
+                                <field name="is_declined" invisible="1" />
+                                <field name="can_edit" invisible="1" />
+                            </group>
+                            <group name="group_right">
+                                <field name="currency_id" invisible="1" />
+                                <field name="amount" />
+                                <field name="received_amount" />
+                                <field name="outstanding_amount" />
+                                <br />
+                                <field
+                                    name="parent_plan_id"
+                                    attrs="{'invisible': [('parent_plan_id', '=', False)]}"
+                                    readonly="1"
+                                    force_save="1"
+                                />
+
+                                <br />
+                                <field
+                                    name="dsa_doc_draft"
+                                    filename="dsa_doc_draft_filename"
+                                    readonly="1"
+                                    attrs="{'invisible': [('dsa_doc_draft', '=', False)]}"
+                                />
+                                <field name="dsa_doc_draft_filename" invisible="1" />
+                                <field
+                                    name="dsa_doc_finalized"
+                                    filename="dsa_doc_finalized_filename"
+                                    readonly="1"
+                                    attrs="{'invisible': [('dsa_doc_finalized', '=', False)]}"
+                                />
+                                <field
+                                    name="dsa_doc_finalized_filename"
+                                    invisible="1"
+                                />
+                                <field name="form_load_trigger" invisible="1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Payment Schedules">
+                                <field name="schedule_ids" />
+                            </page>
+                            <page string="Invoices">
+                                <field
+                                    name="invoice_ids"
+                                    options="{'no_open': True, 'no_create': True}"
+                                />
+                            </page>
+                            <page string="Applied Payments">
+                                <field
+                                    name="payment_ids"
+                                    options="{'no_open': True, 'no_create': True}"
+                                >
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="partner_id" />
+                                        <field name="is_reconciled" />
+                                        <field name="currency_id" invisible="1" />
+                                        <field name="reconciled_invoices_count" />
+                                        <field name="amount" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Unapplied Payments">
+                                <field
+                                    name="unreconciled_payment_ids"
+                                    options="{'no_open': True, 'no_create': True}"
+                                />
+                            </page>
+                            <page string="Decline History">
+                                <field name="decline_history_ids" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="o_attachment_preview" />
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action window -->
+        <record id="payment_plan_action_window" model="ir.actions.act_window">
+            <field name="name">Payment Plans</field>
+            <field name="res_model">account.payment.plan</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu -->
+        <!-- Expose module to groups/users without a shell app -->
+        <!-- Expose module to the Marketing department -->
+        <menuitem
+            name="Payment Plan"
+            id="root"
+            action="payment_plan_action_window"
+            groups="account_payment_plan.group_payment_plan_approve,account_payment_plan.group_payment_plan_legal"
+            web_icon="account_payment_plan,static/description/icon.png"
+        />
+
+        <!-- Expose module to the Treasury department -->
+        <menuitem
+            name="Payment Plan"
+            id="treasury_payment_plan"
+            parent="treasury_debt_recovery.root_menu"
+            action="payment_plan_action_window"
+            groups="account_payment_plan.group_payment_plan_create,account_payment_plan.group_payment_plan_review,account_payment_plan.group_payment_plan_approve,account_payment_plan.group_payment_plan_legal"
+        />
+
+        <!-- Expose module to the Marketing department -->
+        <menuitem
+            name="Payment Plan"
+            id="marketing_payment_plan"
+            parent="marketing.root_menu"
+            action="payment_plan_action_window"
+            groups="account_payment_plan.group_payment_plan_create,account_payment_plan.group_payment_plan_review,account_payment_plan.group_payment_plan_approve,account_payment_plan.group_payment_plan_legal"
+        />
+
+    </data>
+</odoo>
