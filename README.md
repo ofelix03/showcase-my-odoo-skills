@@ -35,7 +35,7 @@ generation.
 **Operations:** increased visibility on incoming orders that must be fulfilled at thedepot. They gave the operations team a better sense of expected workload and also estimate fulfilment time.
 
 
-### 2. Account Payment Plan
+### 2. Account Payment Plan (`account_payment_plan`)
 
 Module enabled the management of customer payment plans. The module had integration
 with other custom Odoo modules such as Acounting, Invoice Interest module. Modules
@@ -43,7 +43,7 @@ reduced manual creation of customer payment plans, and provided the Credit Contr
 department visibility on customers’ defaulting payment schedules. This allow them act
 promptly and strategically through followups with the customer.
 
-### 3. Account Invoice Interest
+### 3. Account Invoice Interest (`account_invoice_interest`)
 
 Module forms part of a Debt Recovery Suit which provides the Credit Control department the
 tools to manage their customer debts. Module is used primarily by the Credit Control
